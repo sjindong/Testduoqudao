@@ -1,0 +1,111 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        main {
+            File key = new File(rootProject.ext.signingConfigs["filePath"])
+            keyAlias rootProject.ext.signingConfigs["keyAlias"]
+            keyPassword rootProject.ext.signingConfigs["keyPassword"]
+            storeFile file(key)
+            storePassword rootProject.ext.signingConfigs["storePassword"]
+        }
+    }
+
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "test7permission.cn.testduoqudao"
+        minSdkVersion 24
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        flavorDimensions "Char", "Num"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.main
+            buildConfigField("String", "url_aaa", rootProject.ext.url["API_HOST_DEBUG"])
+        }
+        debug {
+            buildConfigField("String", "debug", "\"1\"")
+            buildConfigField("String", "url_aaa", rootProject.ext.url["API_HOST_DEBUG"])
+        }
+        aaa.initWith(buildTypes.debug)
+        aaa {
+
+        }
+    }
+
+    productFlavors {
+        A {
+            dimension "Char"
+            buildConfigField("String", "test", "\"ttt\"")
+            buildConfigField("int", "test1", "123")
+            buildConfigField("boolean", "test2", "true")
+        }
+        B {
+            dimension "Char"
+        }
+        Num1 {
+            dimension "Num"
+            manifestPlaceholders = [test_manifestPlace1: "替代的内容1",test_manifestPlace2: "替代的内容2"]
+        }
+        Num2 {
+            dimension "Num"
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName = "app_v${defaultConfig.versionName}_${releaseTime()}_${variant.flavorName}_${variant.buildType.name}(${variant.versionCode}).apk"
+            outputFileName = fileName
+        }
+    }
+    //执行assemble时 过滤不必要的版本
+    android.variantFilter { variant ->
+        if ('release'.equals(variant.buildType.name)) {
+            variant.getFlavors().each() { flavor ->
+                //这里需要注意下， 多维度 和此处不一样
+                if ('Num1'.equals(flavor.name)) {
+                    variant.setIgnore(true)
+                }
+            }
+        }
+    }
+
+
+    sourceSets {
+        //随便写的路径，有些地方会报错，所以索性全部注释掉
+        main {
+//            manifest.srcFile 'AndroidManifest.xml'
+//            java.srcDirs = ['src']
+//            resources.srcDirs = ['src']
+//            aidl.srcDirs = ['src']
+//            renderscript.srcDirs = ['src']
+//            res.srcDirs = ['res']
+//            assets.srcDirs = ['assets']
+//            jniLibs.srcDirs = ['libs']
+        }
+        Num1 {
+//            manifest.srcFile 'src/' + 'Num1' + '/NumManifest.xml'
+//            assets.srcDirs = ['src/' + 'Num1' + '/assets']
+//            java.srcDirs = ['src/' + 'Num1' + '/java']
+        }
+    }
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation rootProject.ext.lib["gson"]
+}

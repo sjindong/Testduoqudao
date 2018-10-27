@@ -1,0 +1,58 @@
+//使用 需要在build.gradle 头部添加 引用 : apply from: "config.gradle"
+
+ext {
+    /*------------------------- 签名配置--------------------------------------*/
+    signingConfigs = [
+            "filePath"     : "aaa.keystore",
+            "keyAlias"     : "bbb",
+            "keyPassword"  : "ccc",
+            "storePassword": "dddd"
+    ]
+    /*------------------------- 签名配置--------------------------------------*/
+
+    /*------------------------- 后台地址配置--------------------------------------*/
+    url = [
+            "API_HOST_DEBUG"  : "\"https://*.*.*.*/\"",
+            "API_HOST_RELEASE": "\"https://*.*.*.*/\""
+    ]
+    url2 = [
+            "API_HOST_DEBUG"  : "\"https://*.*.*.*/\"",
+            "API_HOST_RELEASE": "\"https://*.*.*.*/\""
+    ]
+    /*------------------------- 后台地址配置--------------------------------------*/
+
+    /*------------------------- 测试后台配置--------------------------------------*/
+    test = [
+            "API_HOST_DEBUG"  : "\"http://10.20.11.204:30160/\"",
+            "API_HOST_RELEASE": "\"http://10.20.11.204:30160/\"",
+            "codepath"        : "Num1"//代码路径参考Num1的， 因为这里Num1的 路径是都放在"Num1"下面
+    ]
+    /*------------------------- 测试后台配置--------------------------------------*/
+
+    lib = [
+            "gson": "com.google.code.gson:gson:2.6.2",
+    ]
+    /*------------------------- 参考配置--------------------------------------*/
+    /* android = [
+         compileSdkVersion: 23,
+         buildToolsVersion: "23.0.3",
+         minSdkVersion    : 15,
+         targetSdkVersion : 22,
+         versionCode      : 1,
+         versionName      : "1.0"
+ ]
+
+ dependencies = [
+         "gson"               : "com.google.code.gson:gson:2.6.2",
+         "eventbus"           : 'org.greenrobot:eventbus:3.0.0',
+         "butterknife"        : 'com.jakewharton:butterknife:7.0.1',
+         "support-design"     : 'com.android.support:design:24.1.1',
+         "support-appcompatV7": 'com.android.support:appcompat-v7:24.1.1',
+         "support-percent"    : 'com.android.support:percent:24.1.1',
+         "support-multidex"   : 'com.android.support:multidex:1.0.1',
+         "glide"              : 'com.github.bumptech.glide:glide:3.7.0',
+         "support-v4"         : 'com.android.support:support-v4:24.1.1',
+         "okhttp3"            : 'com.squareup.okhttp3:okhttp:3.3.1',
+         "nineoldandroids"    : 'com.nineoldandroids:library:2.4.0'
+ ]*/
+}

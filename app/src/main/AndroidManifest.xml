@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="test7permission.cn.testduoqudao">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <!--manifestPlaceholders直接使用-->
+                <action android:name="${test_manifestPlace1}"/>
+                <action android:name="${test_manifestPlace2}"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!--//这一句起到至关重要作用-->
+            <meta-data android:name="test_activity" android:value="${test_manifestPlace1}"/>
+        </activity>
+
+        <!--//这一句起到至关重要作用-->
+        <meta-data android:name="test_application" android:value="${test_manifestPlace2}"/>
+    </application>
+
+</manifest>
